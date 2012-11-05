@@ -330,6 +330,9 @@ vec MouseDrag() {
 float d(vec U, vec V) {
   return U.x*V.x+U.y*V.y+U.z*V.z;
 };                                            //U*V dot product
+float dot(vec U, vec V) {
+  return d(U,V);
+};
 float d(pt P, pt Q) {
   return sqrt(sq(Q.x-P.x)+sq(Q.y-P.y)+sq(Q.z-P.z));
 };                            // ||AB|| distance
