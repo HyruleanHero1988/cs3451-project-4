@@ -98,18 +98,18 @@ void draw() {
 //    C.showVec(I);
     noStroke();
   }
-  if (keyPressed&&(key=='a'||key=='s')) {
+  if (keyPressed&&(key=='c'||key=='C')) {
     vec md = MouseDrag();
     if (!pressed) {
       C.pickMouse();
       C.showPick(15);
     }
-    else if (key =='a'){
+    else if (key =='c'){
       vec exy = V(md.x,I);
       exy.add(V(-md.y,J));
       C.dragPoint(exy);
     }
-    else if(key == 's'){
+    else if(key == 'C'){
       vec ez = V(md.y,K);
       C.dragPoint(ez);
     }
