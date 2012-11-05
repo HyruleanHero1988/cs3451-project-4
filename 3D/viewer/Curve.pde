@@ -123,6 +123,7 @@ class Curve {
     newP[(n-1)*(segs+1)] = (P[n-1]);
     n = (n-1)*(segs+1);
     P = newP;
+    println("n= " + n);
   }
 
   void dragPoint(vec V) {

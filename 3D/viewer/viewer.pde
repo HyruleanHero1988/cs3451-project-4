@@ -95,19 +95,23 @@ void draw() {
     fill(red, 255); 
     C.showAll(5);
     pen(red,3);
-    C.showVec(K);
+//    C.showVec(I);
     noStroke();
   }
   if (keyPressed&&(key=='a'||key=='s')) {
+    vec md = MouseDrag();
     if (!pressed) {
       C.pickMouse();
-      C.showPick(10);
+      C.showPick(15);
     }
-    else if (key =='a')
-    {
-      vec md = MouseDrag();
-      vec exy = U(N(U,K));
-      C.dragPoint(N(md,K));
+    else if (key =='a'){
+      vec exy = V(md.x,I);
+      exy.add(V(-md.y,J));
+      C.dragPoint(exy);
+    }
+    else if(key == 's'){
+      vec ez = V(md.y,K);
+      C.dragPoint(ez);
     }
   }
   if (!keyPressed&&mousePressed) {
