@@ -28,7 +28,7 @@ class BALL {
     r=br; 
     m=bm;
   };
-  void show() {
+  /*void show() {
     C.show(r);
   }; 
   void showV() {
@@ -42,9 +42,22 @@ class BALL {
   };
   void roll() { 
     move();
+  };*/
+  
+  void draw(){
+    
+    //noStroke();
+    lights();
+    fill(blue);
+    translate(C.x,C.y,C.z);
+    sphereDetail(15,15); //is this appropriate?
+    sphere(r);
+    
   };
+    
 }
-BALL B(pt C) {
+
+/*BALL B(pt C) {
   return new BALL(C, V(0, 0), gr, 1);
-}
+}*/
 

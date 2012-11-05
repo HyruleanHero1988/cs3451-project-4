@@ -80,6 +80,16 @@ void draw() {
     writeHelp();
     return;
   } 
+  pt point = new pt();
+  point.set(10,10,10);
+  BALL ball = new BALL(point,V(),80.0,80.0);
+   //translate(58,48,0);
+  //noStroke();
+  //lights();
+  //color(0,255,0);
+  //sphereDetail(15,15);
+  //sphere(50);
+  ball.draw();
 
   // -------------------------------------------------------- 3D display : set up view ----------------------------------
   camera(E.x, E.y, E.z, F.x, F.y, F.z, U.x, U.y, U.z); // defines the view : eye, center, up
