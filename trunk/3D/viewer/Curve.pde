@@ -93,6 +93,38 @@ class Curve {
     p=0; 
     for (int i=1; i<n; i++) if (d(M, P[i])<d(M, P[p])) p=i;
   }
+  void pickMouse() {
+    p=0;
+    for (int i=1; i<n; i++) if (d(Mouse(), P[i].coord2d())<d(Mouse(), P[p].coord2d())) p=i;
+  }
+
+  void subdivTo(int goal) {
+    int numToInsert = (goal - n)/n;
+  }
+  void subdivBy(int segs) {
+    pt[] newP = new pt[5000];
+    for (int i=0;i<n-1;i++) {
+      println("i = " + i);
+      newP[i*(segs+1)] = P[i];
+      for (int j=1;j<=segs;j++) {
+        float ratio = (j+0.0)/(segs+1.0);
+        println("j, float = " + j + " , " + ratio);
+        if (i==0) {
+          newP[i*(segs+1)+j] = L3(P[i], P[i+1], P[i+2], ratio);
+        }
+        else if (i==n-2) {
+          newP[i*(segs+1)+j] = L3(P[i-1], P[i], P[i+1], ratio+1);
+        }
+        else {
+          newP[i*(segs+1)+j] = L4(P[i-1], P[i], P[i+1], P[i+2], ratio);
+        }
+      }
+    }
+    newP[(n-1)*(segs+1)] = (P[n-1]);
+    n = (n-1)*(segs+1);
+    P = newP;
+  }
+
   void dragPoint(vec V) {
     P[p].add(V);
   }
@@ -165,16 +197,34 @@ class Curve {
     endShape(); 
     return this;
   }  // fast draw of edges
-  Curve showSamples() {
-    for (int i=0; i<n; i++) show(P[i], 1); 
+  Curve showAll() {
+    showAll(1.0);
     return this;
   }  // fast draw of edges
-  Curve showSamples(float r) {
-    for (int i=0; i<n; i++) show(P[i], r); 
+  Curve showAll(float r) {
+    for (int i=0; i<n; i++) {
+      show(P[i], r);
+    }
+    return this;
+  }  // fast draw of edges
+  Curve showSamples(int interval, float r) {
+    if(interval > 0){
+      for (int i=0; i<n; i+= interval ) {
+        show(P[i], r);
+      }
+    }
     return this;
   }  // fast draw of edges
   void showPick() {
-    show(P[p], 2);
+    showPick(2);
+  }
+  void showVec(vec Us){
+    for (int i=0; i<n; i++) {
+      show(P(P[i],60,Us),P[i]);
+    }
+  }
+  void showPick(float r) {
+    show(P[p], r);
   }  // fast draw of edges
   void cloneFrom(Curve D) {
     for (int i=0; i<max(n,D.n); i++) P[i].set(D.P[i]); 
@@ -189,7 +239,7 @@ class Curve {
     drawEdges(); 
     noStroke(); 
     fill(orange); 
-    showSamples();
+//    showSamples();
   }  
   int closestVertexID(pt M) {
     int v=0; 
@@ -441,7 +491,6 @@ class Curve {
 
   vec II = V(1, 0, 0), JJ = V(0, 1, 0);
 }  // end class Curve
-
 
 
 

@@ -8,6 +8,9 @@ void writeHelp () {fill(dblue);
     scribe("",i++);
 
    }
+void pen(color c, float width){
+  stroke(c);strokeWeight(width);
+}
 void writeFooterHelp () {fill(dbrown);
     scribeFooter("Jarek Rossignac's 3D template.  Press ?:help",1);
   }

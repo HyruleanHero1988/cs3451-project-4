@@ -50,7 +50,7 @@ vec sU=V(); //  view parameters (saved with 'j'
 void setup() {
   size(800, 800, OPENGL);  
   setColors(); 
-  sphereDetail(6); 
+  sphereDetail(3); 
   PFont font = loadFont("GillSans-24.vlw"); 
   textFont(font, 20);  // font for writing labels on //  PFont font = loadFont("Courier-14.vlw"); textFont(font, 12); 
   // ***************** OpenGL and View setup
@@ -66,8 +66,7 @@ void setup() {
   // ***************** Set view
 
   F=P(); 
-  E=P(0, 0, 500);
-
+  E=P(0, 0, 1500);
 }
 
 // ******************************************************************************************************************* DRAW      
@@ -83,23 +82,46 @@ void draw() {
   } 
 
   // -------------------------------------------------------- 3D display : set up view ----------------------------------
-  camera(E.x, E.y, E.z, F.x, F.y, F.z, U.x, U.y, U.z); // defines the view : eye, ctr, up
+  camera(E.x, E.y, E.z, F.x, F.y, F.z, U.x, U.y, U.z); // defines the view : eye, center, up
   vec Li=U(A(V(E, F), 0.1*d(E, F), J));   // vec Li=U(A(V(E,F),-d(E,F),J)); 
   directionalLight(255, 255, 255, Li.x, Li.y, Li.z); // direction of light: behind and above the viewer
   specular(255, 255, 0); 
   shininess(5);
 
   // -------------------------- display and edit control points of the spines and box ----------------------------------   
-  if (pressed) {
-    if (keyPressed&&(key=='a'||key=='s')) {
-      fill(white, 0); 
-      noStroke(); 
-      if (showControl) C.showSamples(20);
-      C.pick(Pick());
+  SetFrame(Q, I, J, K);  // showFrame(Q,I,J,K,30);  // sets frame from picked points and screen axes
+  // rotate view 
+  if (showControl) {
+    fill(red, 255); 
+    C.showAll(5);
+    pen(red,3);
+    C.showVec(K);
+    noStroke();
+  }
+  if (keyPressed&&(key=='a'||key=='s')) {
+    if (!pressed) {
+      C.pickMouse();
+      C.showPick(10);
+    }
+    else if (key =='a')
+    {
+      vec md = MouseDrag();
+      vec exy = U(N(U,K));
+      C.dragPoint(N(md,K));
     }
   }
+  if (!keyPressed&&mousePressed) {
+    E=R(E, PI*float(mouseX-pmouseX)/width, I, K, F); 
+    E=R(E, -PI*float(mouseY-pmouseY)/width, J, K, F);
+  } // rotate E around F 
+  if (keyPressed&&key=='D'&&mousePressed) {
+    E=P(E, -float(mouseY-pmouseY), K);
+  }  //   Moves E forward/backward
+  if (keyPressed&&key=='d'&&mousePressed) {
+    E=P(E, -float(mouseY-pmouseY), K);
+    U=R(U, -PI*float(mouseX-pmouseX)/width, I, J);
+  }//   Moves E forward/backward and rotatees around (F,Y)
   C.showLoop();
-  
 } // end draw
 
 
@@ -107,27 +129,29 @@ void draw() {
 boolean pressed=false;
 
 void mousePressed() {
-  pressed=true;
+  pressed = true;
 }
 
 void mouseDragged() {
-  
 }
 
 void mouseReleased() {
   U.set(M(J)); // reset camera up vector
+  pressed = false;
 }
 
 void keyReleased() {
   if (key==' ') F=P(T);                           //   if(key=='c') M0.moveTo(C.Pof(10));
   U.set(M(J)); // reset camera up vector
+  if (key=='q') C.subdivBy(3);
 } 
 
 
 void keyPressed() {
-  
-    if (key=='?') {
-    showHelpText=!showHelpText;}
+
+  if (key=='?') {
+    showHelpText=!showHelpText;
+  }
   //  for(int i=0; i<10; i++) if (key==char(i+48)) vis[i]=!vis[i];
 } //------------------------------------------------------------------------ end keyPressed
 
@@ -139,5 +163,4 @@ void snapPicture() {
   saveFrame("PICTURES/P"+nf(pictureCounter++, 3)+".jpg"); 
   snapping=false;
 }
-
 
