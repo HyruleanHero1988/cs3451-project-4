@@ -1,0 +1,17 @@
+When the code is ran, a curve is preloaded. The user doesn't have to realy do anything to start the simulation, besides press 'a' to animate. Other controls are listed below. 
+
+
+c: select nearest control point and drag to move
+i: insert point after nearest point
+I: append a point to the curve
+s: save points
+l: load points
+q: subdivide curve
+x: delete curve
+D: zoom
+d: rotate and zoom
+o: moves obstacle in xy
+O: moves obstacle in z
+g: moves particle generator in xy
+G: moves particle generator in z
+a: create particles and animate
