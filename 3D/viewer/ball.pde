@@ -59,6 +59,11 @@ class BALL {
     fill(blue);
     show(C,r);
   };
+  
+  void drawPart(){
+    fill(green);
+    show(C,r);
+  };
     
 }
 
