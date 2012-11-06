@@ -74,6 +74,10 @@ class bGenerator {
   void moveBy(vec V) {
     obstacle.moveBy(V);
   }
+  
+  void moveSourceBy(vec V) {
+   source.moveBy(V); 
+  }
   void generateBall() {
     vec ranDir = V(random(-1, 1), random(-1, 1), random(-1, 1));
     ranDir = U(ranDir);
@@ -82,8 +86,8 @@ class bGenerator {
     balls.add(newball);
   }
   void draw() {
-    pen(black,1);noFill();stroke(green);
-    source.draw();
+    pen(black,1);noFill();noStroke();
+    source.drawSource();
     noStroke();fill(blue);
     obstacle.draw();
     fill(red);

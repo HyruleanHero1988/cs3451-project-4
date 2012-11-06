@@ -64,6 +64,12 @@ class BALL {
     fill(green);
     show(C,r);
   };
+  
+  void drawSource(){
+    fill(red);
+    show(C,r);
+  };
+    
     
 }
 

@@ -127,6 +127,21 @@ void draw() {
       C.dragPoint(ez);
     }
   }
+  if (keyPressed&&(key=='o'||key=='O')) {
+    vec md = MouseDrag();
+    if (!pressed) {
+    }
+    else if (key =='o') {
+      vec exy = V(md.x, I);
+      exy.add(V(-md.y, J));
+      generator.moveBy(exy);
+    }
+    else if (key == 'O') {
+      vec ez = V(md.y, K);
+      generator.moveBy(ez);
+    }
+  }
+  
   if (keyPressed&&(key=='g'||key=='G')) {
     vec md = MouseDrag();
     if (!pressed) {
@@ -134,11 +149,11 @@ void draw() {
     else if (key =='g') {
       vec exy = V(md.x, I);
       exy.add(V(-md.y, J));
-      generator.moveBy(exy);
+      generator.moveSourceBy(exy);
     }
     else if (key == 'G') {
       vec ez = V(md.y, K);
-      generator.moveBy(ez);
+      generator.moveSourceBy(ez);
     }
   }
   
