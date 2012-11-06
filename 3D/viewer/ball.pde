@@ -33,18 +33,27 @@ class BALL {
   }; 
   void showV() {
     arrow(C, V);
-  }; 
+  }; */
   void move() { 
-    C.translateBy(V);
+    moveBy(V);
   };
   void move(float t) { 
-    C.translateBy(t, V);
+    moveBy(V(t, V));
   };
   void roll() { 
     move();
-  };*/
-  void moveBy(vec V){
-    C.add(V);
+  };
+  void moveBy(vec mV){
+    C.add(mV);
+  }
+  void addVel(vec mV){
+    V=(V(V,mV));
+  }
+  void showLine(vec sV){
+    showLine(1.0,sV);
+  }
+  void showLine(float sc, vec sV){
+    show(C, sc, sV);
   }
   void draw(){
     fill(blue);
@@ -53,7 +62,7 @@ class BALL {
     
 }
 
-/*BALL B(pt C) {
-  return new BALL(C, V(0, 0), gr, 1);
-}*/
+BALL B(pt C, float gr, float mass) {
+  return new BALL(C, V(0, 0,0), gr, mass);
+}
 

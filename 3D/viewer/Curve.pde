@@ -212,7 +212,7 @@ class Curve {
     return this;
   }  // fast draw of edges
   Curve showSamples(int interval, float r) {
-    if(interval > 0){
+    if (interval > 0) {
       for (int i=0; i<n; i+= interval ) {
         show(P[i], r);
       }
@@ -222,9 +222,9 @@ class Curve {
   void showPick() {
     showPick(2);
   }
-  void showVec(vec Us){
+  void showVec(vec Us) {
     for (int i=0; i<n; i++) {
-      show(P(P[i],60,Us),P[i]);
+      show(P(P[i], 60, Us), P[i]);
     }
   }
   void showPick(float r) {
@@ -243,7 +243,7 @@ class Curve {
     drawEdges(); 
     noStroke(); 
     fill(orange); 
-//    showSamples();
+    //    showSamples();
   }  
   int closestVertexID(pt M) {
     int v=0; 
@@ -492,10 +492,113 @@ class Curve {
       };
     }
   }
+  vec vecField(pt M) {
+    int pid = closestVertexID(M);
+    vec pv; 
+    vec pn;
+    pt p1, p2, p3;
+    if (pid != 0 && pid != n-1) {
+      p1 = P[pid-1];
+      p2 = P[pid];
+      p3 = P[pid + 1];
+    }
+    else if (pid == 0) {
+      p1 = P[0];
+      p2 = P[1];
+      p3 = P[2];
+    }
+    else { //pid == n-1
+      p1 = P[n-3];
+      p2 = P[n-2];
+      p3 = P[n-1];
+    }
+    pv = V(p1, M);
+    pn = V(p1, p3);
+    float ratio = n(pv)/n(pn);
+    pt vp1 = L3(p1, p2, p3, ratio*2+0.1);
+    pt vp2 = L3(p1, p2, p3, ratio*2-0.1);
+    show(p1, 10);
+    show(p2, 10);
+    show(p3, 10);
+    vec velo = V(5.0, V(vp1, vp2));
+    return velo;
+  }
+  boolean onEnd(pt M){
+    return (closestVertexID(M) == n-1);
+  }
+  vec fieldOn(pt M) {
+    int pid = closestVertexID(M);
+    vec pv; 
+    vec pn;
+    pt p1, p2, p3;
+    if (pid != 0 && pid != n-1) {
+      p1 = P[pid-1]; 
+      p2 = P[pid];
+      p3 = P[pid+1];
+    }
+    else if (pid == 0) {
+      p1 = P[0];
+      p2 = P[1];
+      p3 = P[2];
+    }
+    else {
+      p1 = P[n-3];
+      p2 = P[n-2];
+      p3 = P[n-1];
+    }
+    fill(green);
+//    show(p1, 10);
+    fill(orange);
+//    show(p2, 10);
+//    pen(blue, 2);
+    vec toProj = V(M, p2);
+    vec toNext = V(p1, p3);
+//    show(M, toProj);
+//    show(M, toNext);
+//    pen(red, 2);
+//    show(M, 2, A(toProj, toNext));
+    toNext = U(toNext);
+    toProj = U(toProj);
+    toNext = U(V(p1, p2));
+    toProj = (V(p1, p3));
+    vec toNear = V(d(M,p3)/10,U(V(p1, p3)));
+    return (V(toProj));
+  }
+  pt projectionOn(pt M, vec pV) {
+    int pid = closestVertexID(M);
+    vec pv; 
+    vec pn;
+    pt p1, p2;
+    if (pid != 0 && pid != n-1) {
+      boolean previous = true;
+      if (d(M, P[pid+1])<d(M, P[pid-1])) previous = false;
+      if (previous) {
+        p1 = P[pid-1]; 
+        p2 = P[pid];
+      }
+      else {
+        p1 = P[pid]; 
+        p2 = P[pid+1];
+      }
+    }
+    else if (pid == 0) {
+      p1 = P[0];
+      p2 = P[1];
+    }
+    else {
+      p1 = P[n-2];
+      p2 = P[n-1];
+    }
+    fill(green);
+    show(p1, 10);
+    fill(orange);
+    show(p2, 10);
+    pen(blue, 2);
+    show(M, V(p1, p2));
+
+    return P(p1, ratioVec(p1, p2, M));
+  }
 
   vec II = V(1, 0, 0), JJ = V(0, 1, 0);
 }  // end class Curve
-
-
-
 
