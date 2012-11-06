@@ -11,9 +11,9 @@ GLU glu;
 
 // ****************************** GLOBAL VARIABLES FOR DISPLAY OPTIONS *********************************
 boolean 
-
+animate = false,
 showControl=true, 
-
+generating= false,
 showHelpText=false; 
 
 // String SCC = "-"; // info on current corner
@@ -41,7 +41,8 @@ void initView() {
 
 // ******************************** CURVES & SPINES ***********************************************
 Curve C = new Curve(5);
-BALL ball = new BALL(P(), V(), 80.0, 10.0);
+BALL ball = new BALL(P(-292,195,195), V(9,9,0), 10.0, 10.0);
+bGenerator generator;
 int nsteps=250; // number of smaples along spine
 
 pt sE = P(), sF = P(); 
@@ -49,6 +50,7 @@ vec sU=V(); //  view parameters (saved with 'j'
 
 // *******************************************************************************************************************    SETUP
 void setup() {
+  frameRate(30);
   size(800, 800, OPENGL);  
   setColors(); 
   sphereDetail(6); 
@@ -63,9 +65,9 @@ void setup() {
 
   // ***************** Load Curve
   C.loadPts();
-
+//  C.subdivTo(100);
   // ***************** Set view
-
+  generator = new bGenerator();
   F=P(); 
   E=P(0, 0, 1500);
 }
@@ -100,7 +102,14 @@ void draw() {
     noStroke();
   }
   fill(blue);
-  ball.draw();
+  if(animate)
+    generator.step();
+  generator.draw();
+  pen(blue,0);
+//  show(ball.C, C.FieldOn(ball.C));
+//  ball.move();
+  noStroke();
+  pen(blue,2);
   fill(green);
   if (keyPressed&&(key=='c'||key=='C')) {
     vec md = MouseDrag();
@@ -125,13 +134,14 @@ void draw() {
     else if (key =='g') {
       vec exy = V(md.x, I);
       exy.add(V(-md.y, J));
-      ball.moveBy(exy);
+      generator.moveBy(exy);
     }
     else if (key == 'G') {
       vec ez = V(md.y, K);
-      ball.moveBy(ez);
+      generator.moveBy(ez);
     }
   }
+  
   if (!keyPressed&&mousePressed) {
     E=R(E, PI*float(mouseX-pmouseX)/width, I, K, F); 
     E=R(E, -PI*float(mouseY-pmouseY)/width, J, K, F);
@@ -144,6 +154,7 @@ void draw() {
     U=R(U, -PI*float(mouseX-pmouseX)/width, I, J);
   }//   Moves E forward/backward and rotatees around (F,Y)
   C.showLoop();
+  C.showSamples(3,3);
 } // end draw
 
 
@@ -165,7 +176,13 @@ void mouseReleased() {
 void keyReleased() {
   if (key==' ') F=P(T);                           //   if(key=='c') M0.moveTo(C.Pof(10));
   U.set(M(J)); // reset camera up vector
-  if (key=='q') C.subdivTo(100);
+  if (key=='q') C.subdivTo(250);
+  if (key=='s') C.savePts();
+  if (key=='l') C.loadPts();
+  if (key=='i') {C.insert(Pick());}
+  if (key=='I') C.append(P());
+  if (key=='a') animate = !animate;
+  if (key=='x') C.empty();
 } 
 
 

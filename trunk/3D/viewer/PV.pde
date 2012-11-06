@@ -160,6 +160,12 @@ vec R(vec V, float a, vec I, vec J) {
   return A(V, V(x*c-x-y*s, I, x*s+y*c-y, J));
 }; // Rotated V by a parallel to plane (I,J)
 
+vec ratioVec(pt A, pt B, pt P) {
+  vec va = U(V(A,B));
+  vec vb = V(A,P);
+  vec projToAB = V(dot(vb,va),va);
+  return projToAB;
+}
 
 // ===== point class
 class pt { 
@@ -412,6 +418,7 @@ void show(pt P, float r) {
   sphere(r); 
   popMatrix();
 }; // render sphere of radius r and center P
+
 void show(pt P, float s, vec I, vec J, vec K) {
   noStroke(); 
   fill(yellow); 
@@ -573,7 +580,7 @@ pt NUBS(float a, pt A, float b, pt B, float c, pt C, float d, pt D, float e, flo
 pt L(pt A, pt B, float t) {
   return P(A.x+t*(B.x-A.x), A.y+t*(B.y-A.y), A.z+t*(B.z-A.z));
 }
-pt L3(pt A, pt B, pt C, float t){
+pt L3(pt A, pt B, pt C, float t){ //t is 0-1 and 1-2
   return L(L(A,B,t),L(B,C,t-1),t/2);
 }
 pt L4(pt A, pt B, pt C, pt D, float t){ //t is 0-1 between B and C
