@@ -41,6 +41,7 @@ void initView() {
 
 // ******************************** CURVES & SPINES ***********************************************
 Curve C = new Curve(5);
+BALL ball = new BALL(P(), V(), 80.0, 10.0);
 int nsteps=250; // number of smaples along spine
 
 pt sE = P(), sF = P(); 
@@ -50,7 +51,7 @@ vec sU=V(); //  view parameters (saved with 'j'
 void setup() {
   size(800, 800, OPENGL);  
   setColors(); 
-  sphereDetail(3); 
+  sphereDetail(6); 
   PFont font = loadFont("GillSans-24.vlw"); 
   textFont(font, 20);  // font for writing labels on //  PFont font = loadFont("Courier-14.vlw"); textFont(font, 12); 
   // ***************** OpenGL and View setup
@@ -79,17 +80,7 @@ void draw() {
     fill(black); 
     writeHelp();
     return;
-  } 
-  pt point = new pt();
-  point.set(10,10,10);
-  BALL ball = new BALL(point,V(),80.0,80.0);
-   //translate(58,48,0);
-  //noStroke();
-  //lights();
-  //color(0,255,0);
-  //sphereDetail(15,15);
-  //sphere(50);
-  ball.draw();
+  }
 
   // -------------------------------------------------------- 3D display : set up view ----------------------------------
   camera(E.x, E.y, E.z, F.x, F.y, F.z, U.x, U.y, U.z); // defines the view : eye, center, up
@@ -103,25 +94,42 @@ void draw() {
   // rotate view 
   if (showControl) {
     fill(red, 255); 
-    C.showAll(5);
-    pen(red,3);
-//    C.showVec(I);
+    C.showAll(1);
+    pen(red, 3);
+    //    C.showVec(I);
     noStroke();
   }
+  fill(blue);
+  ball.draw();
+  fill(green);
   if (keyPressed&&(key=='c'||key=='C')) {
     vec md = MouseDrag();
     if (!pressed) {
       C.pickMouse();
       C.showPick(15);
     }
-    else if (key =='c'){
-      vec exy = V(md.x,I);
-      exy.add(V(-md.y,J));
+    else if (key =='c') {
+      vec exy = V(md.x, I);
+      exy.add(V(-md.y, J));
       C.dragPoint(exy);
     }
-    else if(key == 'C'){
-      vec ez = V(md.y,K);
+    else if (key == 'C') {
+      vec ez = V(md.y, K);
       C.dragPoint(ez);
+    }
+  }
+  if (keyPressed&&(key=='g'||key=='G')) {
+    vec md = MouseDrag();
+    if (!pressed) {
+    }
+    else if (key =='g') {
+      vec exy = V(md.x, I);
+      exy.add(V(-md.y, J));
+      ball.moveBy(exy);
+    }
+    else if (key == 'G') {
+      vec ez = V(md.y, K);
+      ball.moveBy(ez);
     }
   }
   if (!keyPressed&&mousePressed) {
@@ -157,7 +165,7 @@ void mouseReleased() {
 void keyReleased() {
   if (key==' ') F=P(T);                           //   if(key=='c') M0.moveTo(C.Pof(10));
   U.set(M(J)); // reset camera up vector
-  if (key=='q') C.subdivBy(3);
+  if (key=='q') C.subdivTo(100);
 } 
 
 

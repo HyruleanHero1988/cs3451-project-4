@@ -43,16 +43,12 @@ class BALL {
   void roll() { 
     move();
   };*/
-  
+  void moveBy(vec V){
+    C.add(V);
+  }
   void draw(){
-    
-    //noStroke();
-    lights();
     fill(blue);
-    translate(C.x,C.y,C.z);
-    sphereDetail(15,15); //is this appropriate?
-    sphere(r);
-    
+    show(C,r);
   };
     
 }

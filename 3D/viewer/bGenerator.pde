@@ -1,4 +1,5 @@
 class bGenerator {
+  
 }
 float collision(BALL A, BALL B) {   // computes collision time t and returns it if 0<t<1. Otherwise, returns 2
   vec W=V(-1, A.V, 1, B.V); 

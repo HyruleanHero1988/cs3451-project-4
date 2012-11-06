@@ -100,8 +100,11 @@ class Curve {
 
   void subdivTo(int goal) {
     int numToInsert = (goal - n)/n;
+    subdivBy(numToInsert);
   }
   void subdivBy(int segs) {
+    print(segs);
+    if (segs < 1) return;
     pt[] newP = new pt[5000];
     for (int i=0;i<n-1;i++) {
       println("i = " + i);
@@ -121,7 +124,7 @@ class Curve {
       }
     }
     newP[(n-1)*(segs+1)] = (P[n-1]);
-    n = (n-1)*(segs+1);
+    n = (n-1)*(segs+1)+1;
     P = newP;
     println("n= " + n);
   }
