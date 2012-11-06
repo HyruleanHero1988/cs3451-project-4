@@ -1,6 +1,6 @@
 //*********************************************************************
-//**                            3D template                          **
-//**                 Jarek Rossignac, Oct  2012                      **   
+//**                            CS 3451 Project 4                    **      
+//**                 Jim Wu and Raymond Garrison, Nov  2012          **
 //*********************************************************************
 import processing.opengl.*;                // load OpenGL libraries and utilities
 import javax.media.opengl.*; 
@@ -43,10 +43,10 @@ void initView() {
 Curve C = new Curve(5);
 BALL ball = new BALL(P(-292,195,195), V(9,9,0), 10.0, 10.0);
 bGenerator generator;
-int nsteps=250; // number of smaples along spine
+int nsteps=250; // number of samples along spine
 
 pt sE = P(), sF = P(); 
-vec sU=V(); //  view parameters (saved with 'j'
+vec sU=V(); //  view parameters (saved with 'j')
 
 // *******************************************************************************************************************    SETUP
 void setup() {
@@ -170,6 +170,8 @@ void draw() {
   }//   Moves E forward/backward and rotatees around (F,Y)
   C.showLoop();
   C.showSamples(3,3);
+  camera(); 
+  writeFooterHelp();
 } // end draw
 
 
