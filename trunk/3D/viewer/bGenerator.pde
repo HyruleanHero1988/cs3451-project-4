@@ -82,13 +82,13 @@ class bGenerator {
     balls.add(newball);
   }
   void draw() {
-    pen(black,1);noFill();
+    pen(black,1);noFill();stroke(green);
     source.draw();
     noStroke();fill(blue);
     obstacle.draw();
     fill(red);
     for (int i = balls.size()-1; i >= 0; i--) {
-      balls.get(i).draw();
+      balls.get(i).drawPart();
     }
   }
 
